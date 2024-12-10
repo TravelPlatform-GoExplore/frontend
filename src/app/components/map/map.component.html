@@ -1,0 +1,9 @@
+<div class="map-wrap">
+    <div class="map" #map></div>
+    <div *ngIf="!isMapInitialized" class="loading-screen">
+        <p-progressSpinner
+            strokeWidth="8"  
+            ariaLabel="loading" />
+        <p>Loading...</p>
+    </div>
+</div>
