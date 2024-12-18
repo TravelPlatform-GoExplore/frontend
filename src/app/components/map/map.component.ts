@@ -1,11 +1,7 @@
 import { Component, AfterViewInit, ElementRef, OnInit, ViewChild, OnDestroy } from '@angular/core';
-import { Map, MapStyle, config } from '@maptiler/sdk';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
-
-
-import '@maptiler/sdk/dist/maptiler-sdk.css';
-import { LocationService } from '../../services/location/location.service';
 import { CommonModule } from '@angular/common';
+import { LocationService } from '../../services/location/location.service';
 
 @Component({
   selector: 'app-map',
@@ -15,8 +11,12 @@ import { CommonModule } from '@angular/common';
   styleUrl: './map.component.css'
 })
 export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
-  private map: Map | undefined;
+  private map: google.maps.Map | undefined;
+  private marker: google.maps.Marker | undefined;
+  private directionsService: google.maps.DirectionsService | undefined;
+  private directionsRenderer: google.maps.DirectionsRenderer | undefined;
   isMapInitialized: boolean = false;
+  private macedoniaCoords = { lng: 21.7453, lat: 41.6086 };
 
   @ViewChild('map')
   private mapContainer!: ElementRef<HTMLElement>;
@@ -25,7 +25,7 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
     lng: number;
     lat: number;
     zoom: number;
-  } | undefined
+  } | undefined;
 
   async getUserLocation() {
     try{
@@ -33,7 +33,6 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
       if(this.initialState) {
         this.initialState!.zoom = 16;
       }
-      console.log("🚀 ~ AppComponent ~ getUserLocation ~ location:", this.initialState)
     } catch {
       console.log('Couldn\'t get user\'s location.')
     }
@@ -44,20 +43,58 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
       this.initialState = { lng: 139.753, lat: 35.6844, zoom: 14 };
     }
 
-    this.map = new Map({
-      container: this.mapContainer.nativeElement,
-      style: `https://api.maptiler.com/maps/c719dcfb-c983-44c6-a6f0-8d7a96be62bd/style.json?key=${config.apiKey}`,
-      center: [this.initialState.lng, this.initialState.lat],
+    this.directionsService = new google.maps.DirectionsService();
+    this.directionsRenderer = new google.maps.DirectionsRenderer();
+
+    this.map = new google.maps.Map(this.mapContainer.nativeElement, {
+      center: { lat: this.initialState.lat, lng: this.initialState.lng },
       zoom: this.initialState.zoom,
     });
 
+    this.directionsRenderer.setMap(this.map);
+
+    // Add marker for Macedonia
+    this.marker = new google.maps.Marker({
+      position: { lat: this.macedoniaCoords.lat, lng: this.macedoniaCoords.lng },
+      map: this.map,
+    });
+
+    if (this.initialState) {
+      this.drawRoute();
+    }
+
     this.isMapInitialized = true;
+  }
+
+  private drawRoute(): void {
+    if (!this.map || !this.initialState || !this.directionsService || !this.directionsRenderer) return;
+
+    const origin = { lat: this.initialState.lat, lng: this.initialState.lng };
+    const destination = { lat: this.macedoniaCoords.lat, lng: this.macedoniaCoords.lng };
+
+    this.directionsService.route(
+      {
+        origin: origin,
+        destination: destination,
+        travelMode: google.maps.TravelMode.DRIVING,
+      },
+      (response: any, status: string) => {
+        if (status === 'OK' && response) {
+          this.directionsRenderer?.setDirections(response);
+        } else {
+          console.error('Directions request failed due to ' + status);
+        }
+      }
+    );
   }
 
   constructor(private locationService: LocationService) { }
 
   ngOnInit(): void {
-    config.apiKey = 'XF6tGXHEsY5RxNQlWsCC';
+    // Load Google Maps Script
+    const script = document.createElement('script');
+    script.src = `https://maps.googleapis.com/maps/api/js?key=YOUR_GOOGLE_MAPS_API_KEY`;
+    document.body.appendChild(script);
   }
 
   async ngAfterViewInit(): Promise<void> {
@@ -66,7 +103,7 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.map?.remove();
+    // Google Maps cleanup is automatic
   }
 }
 
