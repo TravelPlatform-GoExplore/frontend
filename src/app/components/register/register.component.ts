@@ -11,12 +11,11 @@ import { RegisterService } from '../../services/register/register.service';
 import { InputTextModule } from 'primeng/inputtext';
 
 @Component({
-  selector: 'app-register',
-  standalone: true,
-  imports: [CommonModule, CheckboxModule, PasswordModule, ReactiveFormsModule, ButtonModule, ToastModule, InputTextModule],
-  providers: [RegisterService, MessageService],
-  templateUrl: './register.component.html',
-  styleUrl: './register.component.css'
+    selector: 'app-register',
+    imports: [CommonModule, CheckboxModule, PasswordModule, ReactiveFormsModule, ButtonModule, ToastModule, InputTextModule],
+    providers: [RegisterService, MessageService],
+    templateUrl: './register.component.html',
+    styleUrl: './register.component.css'
 })
 export class RegisterComponent {
   registerForm: FormGroup;

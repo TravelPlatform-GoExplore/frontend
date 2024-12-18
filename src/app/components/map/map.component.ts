@@ -4,11 +4,10 @@ import { CommonModule } from '@angular/common';
 import { LocationService } from '../../services/location/location.service';
 
 @Component({
-  selector: 'app-map',
-  standalone: true,
-  imports: [CommonModule, ProgressSpinnerModule],
-  templateUrl: './map.component.html',
-  styleUrl: './map.component.css'
+    selector: 'app-map',
+    imports: [CommonModule, ProgressSpinnerModule],
+    templateUrl: './map.component.html',
+    styleUrl: './map.component.css'
 })
 export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
   private map: google.maps.Map | undefined;

@@ -11,12 +11,11 @@ import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { AuthStateService } from '../../services/auth-state/auth-state.service';
 
 @Component({
-  selector: 'app-login',
-  standalone: true,
-  imports: [CommonModule, CheckboxModule, PasswordModule, ReactiveFormsModule, ButtonModule],
-  providers: [LoginService, HttpClient, HttpClientModule, AuthStateService],
-  templateUrl: './login.component.html',
-  styleUrl: './login.component.css'
+    selector: 'app-login',
+    imports: [CommonModule, CheckboxModule, PasswordModule, ReactiveFormsModule, ButtonModule],
+    providers: [LoginService, HttpClient, HttpClientModule, AuthStateService],
+    templateUrl: './login.component.html',
+    styleUrl: './login.component.css'
 })
 export class LoginComponent {
   loginForm: FormGroup;
