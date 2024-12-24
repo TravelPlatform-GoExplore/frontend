@@ -2,9 +2,6 @@ import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 
-import { CheckboxModule } from 'primeng/checkbox';
-import { PasswordModule } from 'primeng/password';
-import { ButtonModule } from 'primeng/button';
 import { Router } from '@angular/router';
 import { LoginService } from '../../services/login/login.service';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
@@ -12,7 +9,7 @@ import { AuthStateService } from '../../services/auth-state/auth-state.service';
 
 @Component({
     selector: 'app-login',
-    imports: [CommonModule, CheckboxModule, PasswordModule, ReactiveFormsModule, ButtonModule],
+    imports: [CommonModule, ReactiveFormsModule],
     providers: [LoginService, HttpClient, HttpClientModule, AuthStateService],
     templateUrl: './login.component.html',
     styleUrl: './login.component.css'

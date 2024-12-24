@@ -1,3 +1,4 @@
+import { NG_EVENT_PLUGINS } from "@taiga-ui/event-plugins";
 import { provideAnimations } from "@angular/platform-browser/animations";
 import { ApplicationConfig } from '@angular/core';
 import { provideRouter } from '@angular/router';
@@ -5,6 +6,7 @@ import { provideRouter } from '@angular/router';
 import { appRoutes } from './app.routes';
 import { HTTP_INTERCEPTORS, provideHttpClient } from "@angular/common/http";
 import { AuthInterceptor } from "./interceptors/auth.interceptor";
+
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -15,6 +17,7 @@ export const appConfig: ApplicationConfig = {
       useClass: AuthInterceptor,
       multi: true
     },
-    provideRouter(appRoutes)
-  ]
+    provideRouter(appRoutes),
+        NG_EVENT_PLUGINS
+    ]
 };
