@@ -1,0 +1,71 @@
+<div class="itineraries-container">
+    <h1 class="title">Your Itineraries</h1>
+    <div class="itineraries-grid">
+      <div class="itinerary-card" *ngFor="let itinerary of itineraries" (click)="previewItinerary(itinerary)">
+        <div class="card-content" [style.backgroundImage]="'url(' + itinerary.destination.imageUrl + ')'">
+            <div class="overlay">
+                    <div class="trip-info">
+                        <h2>{{itinerary.startDate}} to {{itinerary.endDate}}</h2>
+                        <h3>{{itinerary.destination.name}}</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<ng-template
+    #preview
+    let-preview
+>
+    <tui-preview
+        [rotatable]="false"
+        [zoomable]="false"
+        
+    >
+    <tui-preview-pagination
+            [index]="index$$.value"
+            [length]="filteredActivities.length"
+            (indexChange)="index$$.next($event)"
+        />
+    <div class="results-section">
+        <div class="results-container">
+          <h2 class="title">{{ selectedItem!.destination.name }}</h2>
+          <div class="result-card">
+            <div class="days-grid">
+              <div
+                class="day-card"
+              >
+                <h3>Day {{ index$$.value + 1 }}</h3>
+                <ul>
+                  <li *ngFor="let activity of filteredActivities[index$$.value]; let j = index">
+                    <img
+                      class="activity-image"
+                      src="{{ activity.imageUrl }}"
+                      alt="Activity Image"
+                      *ngIf="j === 0"
+                    />
+                    <h3 *ngIf="j === 0">{{ activity.name }}</h3>
+                    <h5 *ngIf="j !== 0" style="margin: 0;">{{ activity.name }}</h5>
+                    <p *ngIf="activity.description">
+                      {{ activity.description }}
+                    </p>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+ 
+        <button
+            iconStart="@tui.x"
+            tuiIconButton
+            tuiPreviewAction
+            type="button"
+            (click)="preview.complete()"
+        >
+            Close
+        </button>
+    </tui-preview>
+</ng-template>

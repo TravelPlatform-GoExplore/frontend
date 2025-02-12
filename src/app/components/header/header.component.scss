@@ -1,0 +1,42 @@
+.header {
+    background-color: #f8f9fa;
+    padding: 1rem;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+
+    nav {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+
+    .nav-links {
+        display: flex;
+        gap: 1rem;
+        align-items: center;
+    }
+
+    a {
+        text-decoration: none;
+        color: #333;
+        padding: 0.5rem 1rem;
+        &:hover {
+            color: #4158d0;
+        }
+    }
+
+
+    button {
+        background-color: #dc3545;
+        color: white;
+        border: none;
+        padding: 0.5rem 1rem;
+        border-radius: 4px;
+        cursor: pointer;
+
+        &:hover {
+            background-color: #c82333;
+        }
+    }
+}

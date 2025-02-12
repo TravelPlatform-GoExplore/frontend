@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { LatLngLiteral } from 'leaflet';
 
 @Injectable({
   providedIn: 'root'
@@ -7,17 +8,15 @@ export class LocationService {
 
   constructor() { }
 
-  getPosition(): Promise<any>
-  {
+  getPosition(): Promise<LatLngLiteral> {
     return new Promise((resolve, reject) => {
-      console.log('Getting user\'s location')
-      navigator.geolocation.getCurrentPosition(resp => {
-          resolve({lng: resp.coords.longitude, lat: resp.coords.latitude});
-        },
-        err => {
-          reject(err);
-        });
+      navigator.geolocation.getCurrentPosition((resp: GeolocationPosition) => {
+        const geo = { lat: resp.coords.latitude, lng: resp.coords.longitude };
+        resolve(geo);
+      }, (err) => {
+        console.error('Error getting location', err);
+        reject(err);
+      });
     });
-
   }
 }

@@ -1,0 +1,50 @@
+.login-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: var(--tui-base-01);
+}
+
+.login-form {
+    background: var(--tui-base-02);
+    padding: 2rem;
+    border-radius: var(--tui-radius-l);
+    box-shadow: 0 0.25rem 1rem rgba(0, 0, 0, 0.08);
+    width: 100%;
+    max-width: 400px;
+}
+
+.login-title {
+    color: var(--tui-text-01);
+    text-align: center;
+    margin-bottom: 2rem;
+    font-weight: bold;
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.remember-forgot {
+    margin-bottom: 1rem;
+}
+
+.error-message {
+    color: var(--tui-negative);
+    margin-bottom: 1rem;
+    font-size: 0.875rem;
+}
+
+.submit-button {
+    width: 100%;
+    margin-top: 1rem;
+}
+
+a {
+    text-decoration: none;
+    color: #4158d0;
+    &:hover {
+        color: #3a4683;
+    }
+}

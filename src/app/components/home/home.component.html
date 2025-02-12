@@ -1,6 +1,41 @@
-<div>
-    <h1>TravelPlatform</h1>
-    <div style="height: 600px;">
-        <app-map></app-map>
-    </div>
-</div>
+<main>
+    <!-- Hero Section -->
+    <section class="hero">
+      <div class="hero-content">
+        <h1 style="color: white;line-height: 60px">Discover the World</h1>
+        <p style="color: white;">Explore new destinations and experiences</p>
+        <button
+          (click)="goToGenerate()"
+          tuiButton
+          type="button"
+          appearance="primary"
+          size="l"
+          class="generate-button">
+          Generate Your Trip
+        </button>
+      </div>
+    </section>
+  
+    <!-- Destinations Section -->
+    <section class="destinations">
+      <h2 class="tui-text_h2">Recommended Travel Destination</h2>
+      <div class="destinations-grid">
+        <div class="destination-card" *ngFor="let destination of cities">
+          <div class="destination-image">
+            <img [src]="destination.imageUrl" [alt]="destination.name">
+          </div>
+          <div class="destination-content">
+            <h3 style="margin-top: 0;">{{destination.name}}</h3>
+            <p>{{destination.recommendedDays}} days</p>
+            <a href="/generate-trip"
+              tuiButton
+              type="button"
+              appearance="primary"
+              size="m">
+              Generate
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>

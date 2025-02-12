@@ -1,22 +1,25 @@
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { ActivatedRouteSnapshot, Router, RouterStateSnapshot } from '@angular/router';
-import { CookieService } from 'ngx-cookie-service';
-import { BehaviorSubject } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+import { Injectable, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { environment } from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
-export class AuthStateService {
+export class AuthStateService implements OnInit {
   private static isAuthenticated: boolean | undefined = undefined;
 
   constructor(private http: HttpClient, private router: Router) {
     this.checkAuthState();
   }
 
+  ngOnInit(): void {
+  }
+
   async checkAuthState() {
     try {
-      await this.http.get('http://localhost:8080/protected', { withCredentials: true }).toPromise();
+      const backendUrl = environment.backendUrl;
+      await this.http.get(`${backendUrl}/protected`, { withCredentials: true }).toPromise();
       AuthStateService.isAuthenticated = true;
       return true
     } catch (error: any) {

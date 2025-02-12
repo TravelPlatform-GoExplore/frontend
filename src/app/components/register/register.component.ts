@@ -1,11 +1,13 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { AbstractControl, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { RegisterService } from '../../services/register/register.service';
-import { TuiButtonModule } from '@taiga-ui/core';
-import { TuiInputModule, TuiInputPasswordModule } from '@taiga-ui/kit';
-import { TuiErrorModule } from '@taiga-ui/core';
+import { TuiButton } from '@taiga-ui/core';
+import { TuiError } from '@taiga-ui/core';
+import { TuiFieldErrorPipe } from '@taiga-ui/kit';
+import { TuiTextfield } from '@taiga-ui/core';
+
 
 @Component({
   selector: 'app-register',
@@ -13,10 +15,10 @@ import { TuiErrorModule } from '@taiga-ui/core';
   imports: [
     CommonModule,
     ReactiveFormsModule,
-    TuiButtonModule,
-    TuiInputModule,
-    TuiInputPasswordModule,
-    TuiErrorModule
+    TuiTextfield,
+    TuiButton,
+    TuiError,
+    TuiFieldErrorPipe,
   ],
   providers: [RegisterService],
   templateUrl: './register.component.html',
@@ -41,6 +43,8 @@ export class RegisterComponent {
         Validators.minLength(8),
       ]),
     });
+
+    this.registerForm.addValidators(this.checkIfPasswordsAreMatched);
   }
 
   async onSubmit() {
@@ -48,29 +52,25 @@ export class RegisterComponent {
       this.registerForm.value.password !==
       this.registerForm.value.confirmPassword
     ) {
-      // this.messageService.add({
-      //   severity: 'error',
-      //   summary: 'Error',
-      //   detail: 'Passwords do not match'
-      // });
       return;
     }
 
     try {
       await this.registerService.register(this.registerForm.value);
-      // this.messageService.add({
-      //   severity: 'success',
-      //   summary: 'Success',
-      //   detail: 'You have registered successfully. Redirecting to login...'
-      // });
-      setTimeout(() => this.router.navigate(['/login']), 2000);
+      this.router.navigate(['/login']);
     } catch (e) {
-      console.log('🚀 ~ RegisterComponent ~ onSubmit ~ e:', e);
-      // this.messageService.add({
-      //   severity: 'error',
-      //   summary: 'Error',
-      //   detail: 'Registration failed'
-      // });
     }
   }
+
+  checkIfPasswordsAreMatched (c: AbstractControl) {
+    //safety check
+    const password = c.get('password');
+    const confirmPassword = c.get('confirmPassword');
+    if (password && confirmPassword && password === confirmPassword) { return null }
+    return new Error("Passwords do not match");
+    // carry out the actual date checks here for is-endDate-after-startDate
+    // if valid, return null,
+    // if invalid, return an error object (any arbitrary name), like, return { invalidEndDate: true }
+    // make sure it always returns a 'null' for valid or non-relevant cases, and a 'non-null' object for when an error should be raised on the formGroup
+}
 }

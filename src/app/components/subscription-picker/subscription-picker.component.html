@@ -1,0 +1,52 @@
+<section class="subscription-plans">
+  <h1 class="title">Subscription Plans</h1>
+  <p class="subtitle" *ngIf="!currentPlan">You currently don't have an active subscription plan. Please pick one</p>
+  <p class="subtitle" *ngIf="currentPlan">You active subscription plan: <span class="plan-name">{{currentPlan}}</span></p>
+
+  
+  <div class="plans-container" *ngIf="!isLoading">
+    <div 
+      *ngFor="let plan of plans" 
+      class="plan-card"
+      [class.popular]="plan.isPopular"
+    >
+      <div class="plan-header">
+        <h2 class="plan-name">{{plan.name}}</h2>
+        <span *ngIf="plan.isPopular" class="popular-badge">Popular</span>
+        <p class="plan-description">{{plan.description}}</p>
+      </div>
+
+      <div class="plan-price">
+        <span class="price">${{plan.price}}</span>
+        <span class="period">/month</span>
+      </div>
+
+      <ul class="features-list">
+        <li *ngFor="let feature of plan.features" class="feature-item">
+          <tui-icon icon="@tui.check"></tui-icon>
+
+          <span>{{feature.text}}</span>
+          
+          <tui-icon *ngIf="feature.tooltip" tuiHint  [tuiHintShowDelay]="100" [tuiHintHideDelay]="100" tuiHintDirection="right" icon="@tui.info" style="width: 16px;">
+            <tui-hint *tuiHint>
+              <div class="hint-wrapper" [@hintAnimation]>
+                {{feature.tooltip}}
+              </div>
+            </tui-hint>
+          </tui-icon>
+        </li>
+      </ul>
+
+      <button
+        tuiButton
+        [appearance]="plan.isPopular ? 'primary' : 'outline'"
+        class="choose-button"
+        (click)="onChoosePlan(plan)"
+        [disabled]="currentPlan === plan.value"
+      >
+        {{currentPlan !== plan.value ? 'Choose' : 'Current Plan'}}
+      </button>
+    </div>
+  </div>
+</section>
+

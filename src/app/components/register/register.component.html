@@ -1,19 +1,24 @@
 <div class="register-container">
   <div class="register-form">
     <h2 class="register-title">Register</h2>
-    <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+    <form 
+        [formGroup]="registerForm" 
+        (ngSubmit)="onSubmit()"
+        tuiAppearance="floating"
+        tuiCardLarge
+        tuiForm="m"
+    >
       <div class="form-group">
-        <tui-input
-          formControlName="email"
+        <tui-textfield
           tuiTextfieldSize="m"
         >
-          Email
           <input
             tuiTextfield
             type="email"
+            formControlName="email"
             placeholder="Enter your email"
           />
-        </tui-input>
+        </tui-textfield>
         <tui-error
           formControlName="email"
           [error]="[] | tuiFieldError | async"
@@ -21,17 +26,16 @@
       </div>
 
       <div class="form-group">
-        <tui-input
-          formControlName="username"
-          tuiTextfieldSize="m"
+        <tui-textfield
+            tuiTextfieldSize="m"
         >
-          Username
           <input
             tuiTextfield
             type="text"
+            formControlName="username"
             placeholder="Enter your username"
           />
-        </tui-input>
+        </tui-textfield>
         <tui-error
           formControlName="username"
           [error]="[] | tuiFieldError | async"
@@ -39,30 +43,41 @@
       </div>
 
       <div class="form-group">
-        <tui-input-password
-          formControlName="password"
-          tuiTextfieldSize="m"
+        <tui-textfield
+            tuiTextfieldSize="m"
+            type="password"
         >
-          Password
-        </tui-input-password>
+            <input
+                placeholder="Your password please..."
+                tuiTextfield
+                formControlName="password"
+                type="password"
+            />
+        </tui-textfield>
         <tui-error
-          formControlName="password"
-          [error]="[] | tuiFieldError | async"
+            formControlName="password"
+            [error]="[] | tuiFieldError | async"
         ></tui-error>
       </div>
 
       <div class="form-group">
-        <tui-input-password
-          formControlName="confirmPassword"
+        <tui-textfield
           tuiTextfieldSize="m"
         >
-          Confirm Password
-        </tui-input-password>
+        <input
+            placeholder="Your password once again..."
+            tuiTextfield
+            formControlName="confirmPassword"
+            type="password"
+        /> 
+        </tui-textfield>
         <tui-error
           formControlName="confirmPassword"
           [error]="[] | tuiFieldError | async"
         ></tui-error>
       </div>
+
+      <p>Already have an account? Go to <a href="/login">login</a></p>
 
       <button
         tuiButton

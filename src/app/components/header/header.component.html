@@ -1,0 +1,12 @@
+<header class="header">
+    <nav>
+        <div class="nav-links">
+            <h1 (click)="onNavigate('')">GoExplore</h1>
+        </div>
+        <div class="nav-links">
+            
+            <a *ngFor="let route of routes" (click)="onNavigate(route.path)">{{route.name}}</a>
+            <button (click)="logout()">Logout</button>
+        </div>
+    </nav>
+</header>

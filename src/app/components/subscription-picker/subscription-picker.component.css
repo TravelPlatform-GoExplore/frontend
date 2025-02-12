@@ -1,0 +1,131 @@
+.subscription-plans {
+  padding: 2rem;
+  font-family: var(--tui-font-text);
+  max-width: 1200px;
+  display: flex;
+  flex-direction: column;
+  margin: 0 auto;
+
+}
+
+.title {
+  font-size: 2rem;
+  font-weight: bold;
+  margin-bottom: 2rem;
+}
+
+.subtitle {
+  font-size: 1.5rem;
+  font-weight: lighter;
+  margin-bottom: 1.5rem;
+  color: #222222;
+}
+
+.plans-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 2rem;
+  @media screen and (max-width: 1000px) {
+    grid-template-columns: 1fr;
+    
+  }
+}
+
+.plan-card {
+  padding: 2rem;
+  border: 1px solid gray;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.plan-card.popular {
+  border-color: #4158d0;
+  position: relative;
+}
+
+.plan-header {
+  position: relative;
+}
+
+.plan-name {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #4158d0;
+  margin-bottom: 0.5rem;
+}
+
+.popular-badge {
+  position: absolute;
+  top: 0;
+  right: 0;
+  background: var(--tui-primary);
+  color: white;
+  padding: 0.25rem 0.75rem;
+  border-radius: var(--tui-radius-m);
+  font-size: 0.875rem;
+}
+
+.plan-description {
+  color: var(--tui-text-03);
+  font-size: 0.875rem;
+}
+
+.plan-price {
+  display: flex;
+  align-items: baseline;
+  gap: 0.25rem;
+}
+
+.price {
+  font-size: 2rem;
+  font-weight: bold;
+}
+
+.period {
+  color: var(--tui-text-03);
+}
+
+.features-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.feature-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--tui-text-02);
+}
+
+.feature-item tui-svg {
+  color: var(--tui-success-fill);
+}
+
+.choose-button {
+  width: 100%;
+  margin-top: auto;
+}
+
+.hint-wrapper {
+  display: block;
+  transform-origin: center;
+  will-change: transform, opacity;
+}
+
+.hint {
+  color: #fff;
+  background: linear-gradient(43deg, #4158d0 0%, #142a98 46%, #6a7acd 100%);
+  font-weight: bold;
+  pointer-events: none;
+
+  &::before {
+      display: none;
+  }
+}
+

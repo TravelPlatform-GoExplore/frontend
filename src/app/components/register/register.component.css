@@ -30,3 +30,11 @@
   width: 100%;
   margin-top: 1rem;
 }
+
+a {
+  text-decoration: none;
+  color: #4158d0;
+  &:hover {
+      color: #3a4683;
+  }
+}

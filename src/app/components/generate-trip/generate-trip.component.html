@@ -1,0 +1,155 @@
+<div class="container" *ngIf="current_step === 1">
+  <div class="grid">
+    <div class="form-section">
+      <div class="header">
+        <h1>Generate your trip</h1>
+        <p>Plan your perfect getaway</p>
+      </div>
+
+      <form
+        *tuiLet="items$ | async as items"
+        [formGroup]="tripForm"
+        (ngSubmit)="onSubmit()"
+        class="form"
+      >
+        <div class="form-group">
+          <div class="input-container">
+            <tui-combo-box
+              [formControl]="location"
+              [valueContent]="content"
+              (searchChange)="onLocationNameChange($event)"
+              [stringify]="stringifyLocation"
+            >
+              Destination
+              <input
+                placeholder="Type a location"
+                tuiTextfieldLegacy
+                (input)="onLocationNameChange(extractValueFromEvent($event))"
+              />
+              <tui-data-list-wrapper
+                *tuiDataList
+                [itemContent]="content"
+                [items]="items"
+              />
+            </tui-combo-box>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <div class="input-container">
+            <tui-input-date-range
+              id="dates"
+              formControlName="dates"
+              tuiUnfinishedValidator="Finish filling the field"
+              [min]="min"
+              [max]="max"
+            >
+              Choose dates
+              <input placeholder="From - To" tuiTextfieldLegacy />
+            </tui-input-date-range>
+          </div>
+        </div>
+
+        <div class="form-group" formGroupName="tripTypes">
+          <label>Trip Type</label>
+          <div class="checkbox-group">
+            <div class="checkbox-item" *ngFor="let type of tripTypes">
+              <input
+                type="checkbox"
+                [id]="type.toLowerCase()"
+                [formControlName]="type.toLowerCase().replace(' ', '')"
+              />
+              <label [for]="type.toLowerCase()">{{ type }}</label>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="customNeeds">Custom Needs</label>
+          <textarea
+            id="customNeeds"
+            formControlName="customNeeds"
+            placeholder="Tell us about any specific requirements..."
+            rows="4"
+          ></textarea>
+        </div>
+
+        <button type="submit" class="submit-button">Generate Trip</button>
+      </form>
+    </div>
+
+    <div class="map-section">
+      <app-map [center]="mapLocation!"></app-map>
+    </div>
+  </div>
+</div>
+
+<div class="results-section" *ngIf="current_step === 2">
+  <div class="results-container">
+    <h2>{{ numOfDays }}-Day trip to</h2>
+    <h2 class="title">{{ tripForm.value.location.name }}</h2>
+
+    <div class="city-image-wrapper">
+      <img
+        [src]="tripForm.value.location.imageUrl"
+        class="city-image"
+        alt="City Image"
+      />
+    </div>
+
+    <div class="results-grid">
+      <div class="result-card">
+        <div style="display: flex; flex-direction: column; align-items: center">
+          <h2 style="margin-bottom: 0">Itinerary</h2>
+          <p>
+            Explore our handpicked itinerary to do, see and experience in
+            {{ tripForm.value.location.name }}
+          </p>
+        </div>
+        <div class="days-grid">
+          <div
+            class="day-card"
+            *ngFor="
+              let day of filteredActivities;
+              let i = index
+            "
+          >
+            <h3>Day {{ i + 1 }}</h3>
+            <p>{{this.tripForm.value.dates.from.toLocalNativeDate().getTime() + i * 86400000 | formatDate}}</p>
+            <ul>
+              <li *ngFor="let activity of day; let j = index">
+                <img
+                  class="activity-image"
+                  src="{{ activity.imageUrl }}"
+                  alt="Activity Image"
+                  *ngIf="j === 0"
+                />
+                <h3 *ngIf="j === 0">{{ activity.name }}</h3>
+                <h5 *ngIf="j !== 0" style="margin: 0;">{{ activity.name }}</h5>
+                <p *ngIf="activity.description && j === 0">
+                  {{ activity.description }}
+                </p>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <button (click)="saveTrip()"
+        tuiButton
+        type="button"
+        appearance="primary"
+        size="m">
+        Save
+    </button>
+    </div>
+  </div>
+</div>
+
+<ng-template #content let-data>
+  <div class="template">
+    <div class="name">{{ data.name }}</div>
+  </div>
+</ng-template>
